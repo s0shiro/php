@@ -4,8 +4,15 @@ require "functions.php";
 require "Database.php";
 //require "router.php";
 
-$db = new Database();
-$posts = $db->query("select * from posts where id = 3")->fetch(PDO::FETCH_ASSOC);
+$config = require('config.php');
+$db = new Database($config['database']);
+
+$id = $_GET['id'];
+$query = "select * from posts where id = :id";
+
+//dd($query);
+
+$posts = $db->query($query, ["id" => $id])->fetch();
 
 dd($posts);
 
