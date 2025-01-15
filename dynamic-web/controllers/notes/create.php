@@ -1,17 +1,15 @@
 <?php
 
-require 'Validator.php';
+require base_path('Validator.php');
 
-$config = require 'config.php';
+$config = require base_path('config.php');
 $db = new Database($config['database']);
 
-$heading = "Create Note";
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $errors = [];
 
     //add a server side validation before submitting into the database
-
     if(! Validator::string($_POST['body'], 1, 200)) {
         $errors['body'] = 'A body is required at least 1 character but at maximum of 200 character. Please try again.';
     }
@@ -24,4 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require ("views/note-create.view.php");
+view("notes/create.view.php", [
+    'heading' => 'Create Note',
+    'errors' => $errors
+]);

@@ -20,8 +20,8 @@ function abort($code = 404)
     die();
 }
 
-// Trim `/php/dynamic-web` from the URI
-$uri = parse_url(str_replace('/php/dynamic-web', '', $_SERVER['REQUEST_URI']))['path'];
+// Get the URI
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
 //calling the function to handling routes
 routeToController($uri, $routes);
