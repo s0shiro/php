@@ -1,5 +1,9 @@
 <?php
 
+namespace Core;
+
+use PDO;
+
 //Create class for database
 class Database
 {
