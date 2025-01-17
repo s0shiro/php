@@ -42,6 +42,8 @@ class Router
 
     public function route($uri, $method)
     {
+        $method = $_POST['_method'] ?? $method;
+
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 return require base_path($route['controller']);
