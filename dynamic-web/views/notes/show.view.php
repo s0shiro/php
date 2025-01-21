@@ -9,11 +9,9 @@
             </p>
             <p><?= $note['body'] ?></p>
 
-            <form method="POST" action="/note" class="mt-6">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="note_id" value="<?= $note['id'] ?>">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
-            </form>
+            <p class="mt-6">
+                <a href="/note/edit?id=<?= $note['id']?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
+            </p>
 
         </div>
     </main>
