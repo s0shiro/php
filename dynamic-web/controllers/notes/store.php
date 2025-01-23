@@ -20,13 +20,22 @@ if (! empty($errors)) {
     ]);
 }
 
-$db->query('INSERT INTO notes(body, user_id) VALUES (:body, :user_id)', [
-    'body' => $_POST['body'],
-    'user_id' => 1
-]);
+// Retrieve the user ID from the session
+$user_id = getUserId();
 
-header('location: /notes');
-die();
+if ($user_id) {
+    $db->query('INSERT INTO notes(body, user_id) VALUES (:body, :user_id)', [
+        'body' => $_POST['body'],
+        'user_id' => $user_id
+    ]);
 
-
-//validation issue
+    header('location: /notes');
+    die();
+} else {
+    // Handle the case where the user is not logged in
+    $errors['user'] = 'User is not logged in. Please log in to create a note.';
+    return view("notes/create.view.php", [
+        'heading' => 'Create Note',
+        'errors' => $errors
+    ]);
+}

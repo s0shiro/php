@@ -7,6 +7,7 @@ use Core\Validator;
 $email = $_POST['email'];
 $password = $_POST['password'];
 
+$db = App::resolve(Database::class);
 
 //validate form inputs
 $errors = array();
@@ -25,7 +26,6 @@ if (!empty($errors)) {
     ]);
 }
 
-$db = App::resolve(Database::class);
 //check if account already exist
 $user = $db->query('SELECT * FROM users WHERE email = :email', [
     'email' => $email
@@ -41,13 +41,17 @@ if ($user) {
     //If not save data into the database and register the user and logged the user
     $db->query('INSERT INTO users(email, password) VALUES (:email, :password)', [
         'email' => $email,
-        'password' => $password
+        'password' => password_hash($password, PASSWORD_BCRYPT)
     ]);
 
-    //mark that the user has logged in.
-    $_SESSION['user'] = [
+
+    // Retrieve the newly created user from the database
+    $user = $db->query('SELECT * FROM users WHERE email = :email', [
         'email' => $email
-    ];
+    ])->find();
+
+    login($user);
+
 
     header('location: /');
     exit();

@@ -6,7 +6,7 @@ use Core\Validator;
 
 $db = App::resolve(Database::class);
 
-$currentUserID = 1;
+$currentUserID = getUserId();
 
 //find the corresponding note
 $note = $db->query("SELECT * FROM notes where id = :id", [
